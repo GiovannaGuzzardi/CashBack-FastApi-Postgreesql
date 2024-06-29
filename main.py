@@ -42,4 +42,4 @@ def read_root():
 app.include_router(api_store.router)
 app.include_router(api_custumer.router)
 app.include_router(api_cashback.router)
-# app.include_router(api_custumer_store.router)
+app.include_router(api_custumer_store.router)

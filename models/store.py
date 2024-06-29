@@ -11,6 +11,4 @@ class Store(Base):
     name = Column(String, index=True)
     email = Column(String, unique=True)                         
 
-    # Relacionamento muitos para muitos com a tabela Custumer
-    # custumers = relationship("Custumer", back_populates="stores", uselist=True)
-    # custumers = relationship("Custumer", secondary="custumer_store", back_populates="stores", uselist=True)
+    custumer_stores = relationship("CustumerStoreAssociation", back_populates="store")

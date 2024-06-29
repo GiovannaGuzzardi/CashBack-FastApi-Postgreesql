@@ -12,7 +12,4 @@ class Custumer(Base):
     email = Column(String, nullable=True)
     telefone = Column(String, unique =True)
 
-     # Relacionamento muitos para muitos com a tabela Store
-    # stores = relationship("Store", secondary="custumer_store", back_populates="custumers", uselist=True)
-
-    # stores = relationship("Store", back_populates="custumers", uselist=True)
+    custumer_stores = relationship("CustumerStoreAssociation", back_populates="custumer")

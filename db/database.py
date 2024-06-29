@@ -1,6 +1,8 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
+import time
+import os
 
 URL_DATABASE = 'postgresql://postgres:nova_senha@localhost:5432/cash_database'
 
