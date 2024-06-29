@@ -20,6 +20,24 @@ def list_store(db: Session) -> List[dict]:
     store = db.query(Store).all()
     return store
 
+def get_store_by_id(store_id: str, db: Session) -> List[dict]:
+    store = db.query(Store).filter(Store.id == store_id).first()
+    if not store:
+        raise Exception("Loja não encontrada")
+    return store
+
+def get_store_by_cnpj(cnpj: str, db: Session) -> List[dict]:
+    store = db.query(Store).filter(Store.cnpj == cnpj).first()
+    if not store:
+        raise Exception("Loja não encontrada")
+    return store
+
+def get_store_by_email(email: str, db: Session) -> List[dict]:
+    store = db.query(Store).filter(Store.email == email).first()
+    if not store:
+        raise Exception("Loja não encontrada")
+    return store
+
 def delete_store_service(store_id: str, db: Session) -> List[dict]:
     store = db.query(Store).filter(Store.id == store_id).delete()
     try:
@@ -42,21 +60,3 @@ def update_store_service(store_id: str, store: StoreCreate, db: Session) -> List
         db.rollback()
         raise e
     return db_store
-
-def get_store_by_id(store_id: str, db: Session) -> List[dict]:
-    store = db.query(Store).filter(Store.id == store_id).first()
-    if not store:
-        raise Exception("Loja não encontrada")
-    return store
-
-def get_store_by_cnpj(cnpj: str, db: Session) -> dict:
-    store = db.query(Store).filter(Store.cnpj == cnpj).first()
-    if not store:
-        raise Exception("Loja não encontrada")
-    return store
-
-def get_store_by_email(email: str, db: Session) -> List[dict]:
-    store = db.query(Store).filter(Store.email == email).first()
-    if not store:
-        raise Exception("Loja não encontrada")
-    return store

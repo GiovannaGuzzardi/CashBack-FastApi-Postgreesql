@@ -16,40 +16,6 @@ router = fastapi.APIRouter()
 
 db_dependency = Annotated[Session,Depends(get_db)]
 
-@router.get("/stores/", response_model= List[StoreBase] ,tags=["stores"])
-async def read_questions(db: db_dependency):
-    try:
-        result = list_store(db)
-        if not result:
-            raise HTTPException(status_code=404 , detail= "Não tem nenhuma pergunta aqui" )
-    except Exception as e:
-        raise HTTPException(status_code=400 , detail= str(e) )
-    return result
-
-@router.get("/store/{store_id}", response_model=StoreBase ,tags=["stores"])
-async def read_question(store_id: uuid.UUID, db: db_dependency):
-    try:
-        result = get_store_by_id(store_id, db)
-    except Exception as e:
-        raise HTTPException(status_code=404 , detail= str(e) )
-    return result
-
-@router.get("/store/cnpj/{cnpj}/", response_model=StoreBase ,tags=["stores"])
-async def read_question(cnpj: str, db: db_dependency):
-    try:
-        result = get_store_by_cnpj(cnpj, db)
-    except Exception as e:
-        raise HTTPException(status_code=404 , detail= str(e) )
-    return result
-
-@router.get("/store/email/{email}", response_model=StoreBase ,tags=["stores"])
-async def read_question(email: str, db: db_dependency):
-    try:
-        result = get_store_by_email(email, db)
-    except Exception as e:
-        raise HTTPException(status_code=404 , detail= str(e) )
-    return result
-
 @router.post("/store/", response_model=http_json ,tags=["stores"])
 async def create_store(store: StoreCreate, db: Session = Depends(get_db)):
     try:
@@ -73,7 +39,41 @@ async def create_store(store: StoreCreate, db: Session = Depends(get_db)):
             status_code=400,
             detail= str(e)
         )
-    
+
+@router.get("/stores/", response_model= List[StoreBase] ,tags=["stores"])
+async def read_stores(db: db_dependency):
+    try:
+        result = list_store(db)
+        if not result:
+            raise HTTPException(status_code=404 , detail= "Não tem nenhuma loja aqui" )
+    except Exception as e:
+        raise HTTPException(status_code=400 , detail= str(e) )
+    return result
+
+@router.get("/store/{store_id}", response_model=StoreBase ,tags=["stores"])
+async def read_store(store_id: uuid.UUID, db: db_dependency):
+    try:
+        result = get_store_by_id(store_id, db)
+    except Exception as e:
+        raise HTTPException(status_code=404 , detail= str(e) )
+    return result
+
+@router.get("/store/cnpj/{cnpj}/", response_model=StoreBase ,tags=["stores"])
+async def read_question(cnpj: str, db: db_dependency):
+    try:
+        result = get_store_by_cnpj(cnpj, db)
+    except Exception as e:
+        raise HTTPException(status_code=404 , detail= str(e) )
+    return result
+
+@router.get("/store/email/{email}", response_model=StoreBase ,tags=["stores"])
+async def read_question(email: str, db: db_dependency):
+    try:
+        result = get_store_by_email(email, db)
+    except Exception as e:
+        raise HTTPException(status_code=404 , detail= str(e) )
+    return result
+
 @router.delete("/store/{store_id}", response_model=http_json ,tags=["stores"])
 async def delete_store(store_id: uuid.UUID, db: Session = Depends(get_db)):
     try:
