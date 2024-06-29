@@ -13,4 +13,6 @@ class Custumer(Base):
     telefone = Column(String, unique =True)
 
      # Relacionamento muitos para muitos com a tabela Store
-    stores = relationship("Store", secondary="custumer_store", back_populates="custumers", uselist=True)
+    # stores = relationship("Store", secondary="custumer_store", back_populates="custumers", uselist=True)
+
+    # stores = relationship("Store", back_populates="custumers", uselist=True)

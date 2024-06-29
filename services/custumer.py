@@ -15,3 +15,7 @@ def post_custumer(custumer: CustumerCreate, db: Session) -> List[dict]:
         db.rollback()
         raise e
     return db_custumer
+
+def get_custumer(db: Session ) -> List[dict]:
+    db = db.query(Custumer).all()
+    return db

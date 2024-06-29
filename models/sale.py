@@ -9,9 +9,9 @@ class Sale(Base):
     __tablename__ = 'sales'
 
     id = Column(UUID(as_uuid=True), primary_key=True, index=True, default=lambda: str(uuid.uuid4()))
-    custumer_buyer = Column(String, ForeignKey('custumers.id'))
-    seller_store = Column(String, ForeignKey('stores.id'))
-    value = Column(Float)
-    date_time = Column(DateTime)
-    percentage_cash = Column(Float)
-    cash_generated = Column(String, ForeignKey('cashbacks.id'))
+    custumer_buyer = Column(UUID, ForeignKey('custumers.id')) # Cliente que comprou o produto
+    seller_store = Column(UUID, ForeignKey('stores.id')) # Loja que vendeu o produto
+    value = Column(Float) 
+    date_time = Column(DateTime) # Data e hora da compra
+    percentage_cash = Column(Float) # Porcentagem de cashback que o cliente irá receber em relação ao valor da compra
+    cash_generated = Column(UUID, ForeignKey('cashbacks.id')) # Cashback gerado para o cliente pela compra

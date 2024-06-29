@@ -21,7 +21,6 @@
 #             detail="Relação entre loja e cliente adicionada com sucesso",
 #             status_code=201,
 #         )
-
     
 #     except Exception as e:
 #         db.rollback()
