@@ -5,8 +5,10 @@ class CashBase(BaseModel):
     id: UUID
     redeem : bool = Field(default=False)
     value: float = Field(default=0.0)
+    percent: float = Field(default=0.0)
+    id_sale: UUID
 
-    @field_validator('value')
+    @field_validator('value', 'percent')
     def check_positive(cls, v):
         if v < 0:
             raise ValueError('Must be positive')
@@ -16,15 +18,14 @@ class CashBase(BaseModel):
 class CashCreate(BaseModel):
     redeem: bool = Field(default=False)
     value: float = Field(default=0.0)
+    percent: float = Field(default=10.0 , nullable=True)
+    id_sale: UUID
 
-    @field_validator('value')
+
+    @field_validator('value' , 'percent')
     def check_positive(cls, v):
         if v < 0:
             raise ValueError('O valor do cash deve ser positivo ou negativo')
         return v
 
-
-# Tabela cash (Cashback):
-# id_cash (Chave Primária)
-# resgatado (Booleano)
-# valor
+percent_cash = 10

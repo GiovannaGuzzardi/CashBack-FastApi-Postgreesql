@@ -11,6 +11,6 @@ class CustumerStoreBase(BaseModel):
     account_creation: datetime = Field(default_factory=lambda: datetime.now(timezone_brasilia))
 
 class CustumerStoreCreate(BaseModel):
-    telefone_client : str
-    cnpj_store : str
+    id_store : UUID
+    id_custumer : UUID
 

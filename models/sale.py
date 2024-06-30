@@ -1,17 +1,29 @@
-# import uuid
-# from sqlalchemy import UUID, Boolean,Column, ForeignKey, Integer, String
-# from db.database import Base
-# from sqlalchemy.orm import relationship
-# from sqlalchemy.sql.sqltypes import Float, DateTime
+from datetime import datetime
+import uuid
+from sqlalchemy import UUID, Boolean,Column, ForeignKey, Integer, String
+from db.database import Base
+from sqlalchemy.orm import relationship
+from sqlalchemy.sql.sqltypes import Float, DateTime
 
 
-# class Sale(Base):
-#     __tablename__ = 'sales'
+class Sale(Base):
+    __tablename__ = 'sales'
 
-#     id = Column(UUID(as_uuid=True), primary_key=True, index=True, default=lambda: str(uuid.uuid4()))
-#     custumer_buyer = Column(UUID, ForeignKey('custumers.id')) # Cliente que comprou o produto
-#     seller_store = Column(UUID, ForeignKey('stores.id')) # Loja que vendeu o produto
-#     value = Column(Float) 
-#     date_time = Column(DateTime) # Data e hora da compra
-#     percentage_cash = Column(Float) # Porcentagem de cashback que o cliente irá receber em relação ao valor da compra
-#     cash_generated = Column(UUID, ForeignKey('cashbacks.id')) # Cashback gerado para o cliente pela compra
+    id = Column(UUID(as_uuid=True), primary_key=True, index=True, default=lambda: str(uuid.uuid4()))
+    id_customer = Column(UUID(as_uuid=True), ForeignKey('custumers.id'))
+    id_store = Column(UUID(as_uuid=True), ForeignKey('stores.id'))
+    value = Column(Float) 
+    date_time = Column(DateTime, default=datetime.now) # Data e hora da compra
+
+    stores = relationship('Store', back_populates='sale')
+    custumers = relationship('Custumer', back_populates='sale')
+
+
+    cashbacks = relationship('Cashback', back_populates='sale')
+    
+# class SaleBase(BaseModel):
+#     id_sale : UUID
+#     id_custumer : UUID
+#     id_store : UUID 
+#     value : float = Field(default=0.0)
+#     data_hora : datetime = Field(default_factory=lambda: datetime.now(timezone_brasilia))

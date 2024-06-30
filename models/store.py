@@ -12,3 +12,4 @@ class Store(Base):
     email = Column(String, unique=True)                         
 
     custumer_stores = relationship("CustumerStoreAssociation", back_populates="store")
+    sale = relationship('Sale', back_populates='stores')

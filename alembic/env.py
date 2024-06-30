@@ -6,7 +6,7 @@ from sqlalchemy import pool
 from alembic import context
 
 from db.database import Base
-from models import custumer, custumer_store_association, store , sale, cashback
+from models import store, custumer, cashback, custumer_store_association, sale
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

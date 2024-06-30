@@ -13,3 +13,4 @@ class Custumer(Base):
     telefone = Column(String, unique =True)
 
     custumer_stores = relationship("CustumerStoreAssociation", back_populates="custumer")
+    sale = relationship('Sale', back_populates='custumers')

@@ -8,6 +8,7 @@ from fastapi.exceptions import RequestValidationError
 import controllers.custumer as api_custumer
 import controllers.cashback as api_cashback
 import controllers.custumer_store as api_custumer_store
+import controllers.sale as api_sale
 
 app = FastAPI(
     title="Cyrus Cash",
@@ -43,3 +44,4 @@ app.include_router(api_store.router)
 app.include_router(api_custumer.router)
 app.include_router(api_cashback.router)
 app.include_router(api_custumer_store.router)
+app.include_router(api_sale.router)
