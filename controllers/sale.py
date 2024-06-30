@@ -45,7 +45,6 @@ async def create_sale(sale: SaleCreate, db: Session = Depends(get_db)):
             id_custumer=sale.id_custumer,
             id_store=sale.id_store,
             value=sale.value,
-            date_time=sale.date_time,
         )
 
         db.add(new_sale)
@@ -57,7 +56,7 @@ async def create_sale(sale: SaleCreate, db: Session = Depends(get_db)):
         new_cashback = Cashback(
             id_sale=new_sale.id,
             value= new_sale.value * percent_cash / 100,
-            percentage= percent_cash,
+            percent= percent_cash,
         )
 
         db.add(new_cashback)

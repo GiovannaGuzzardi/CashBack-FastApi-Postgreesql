@@ -18,7 +18,7 @@ class CashBase(BaseModel):
 class CashCreate(BaseModel):
     redeem: bool = Field(default=False)
     value: float = Field(default=0.0)
-    percent: float = Field(default=10.0 , nullable=True)
+    percent: float = Field(default=10)
     id_sale: UUID
 
 
