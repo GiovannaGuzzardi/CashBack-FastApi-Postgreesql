@@ -9,7 +9,7 @@ timezone_brasilia = pytz.timezone('America/Sao_Paulo')
 
 class SaleBase(BaseModel):
     id_sale : UUID
-    id_custumer : UUID
+    id_customer : UUID
     id_store : UUID 
     value : float = Field(default=0.0)
     date_time : datetime = Field(default_factory=lambda: datetime.now(timezone_brasilia))
@@ -21,7 +21,7 @@ class SaleBase(BaseModel):
         return v
 
 class SaleCreate(BaseModel):
-    id_custumer : UUID
+    id_customer : UUID
     id_store : UUID 
     value : float = Field(default=0.0)
 

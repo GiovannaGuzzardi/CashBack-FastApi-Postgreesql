@@ -1,28 +1,28 @@
 # models/__init__.py
 from .store import Store
-from .custumer import Custumer
+from .customer import customer
 from .cashback import Cashback
 from .sale import Sale
-from .custumer_store_association import CustumerStoreAssociation # type: ignore
+from .customer_store_association import customerStoreAssociation # type: ignore
 from sqlalchemy.orm import relationship
 
-# relacionamento entre as tabelas store e custumer muito para muitos
-Store.custumer_stores = relationship("CustumerStoreAssociation", back_populates="store")
-Custumer.custumer_stores = relationship("CustumerStoreAssociation", back_populates="custumer")
+# relacionamento entre as tabelas store e customer muito para muitos
+Store.customer_stores = relationship("customerStoreAssociation", back_populates="store")
+customer.customer_stores = relationship("customerStoreAssociation", back_populates="customer")
 
-CustumerStoreAssociation.store = relationship("Store", back_populates="custumer_stores")
-CustumerStoreAssociation.custumer = relationship("Custumer", back_populates="custumer_stores")
+customerStoreAssociation.store = relationship("Store", back_populates="customer_stores")
+customerStoreAssociation.customer = relationship("customer", back_populates="customer_stores")
 
 # relacionamento entre as tabelas sale e cashback um para muitos
 Sale.cashbacks = relationship("Cashback", back_populates="sale")
 Cashback.sale = relationship("Saler", back_populates="cashbacks")
 
-# relacionamento entre as tabelas sale e store e custumer muitos para muitos
+# relacionamento entre as tabelas sale e store e customer muitos para muitos
 Sale.stores = relationship("Store", back_populates="sale")
-Sale.custumers = relationship("Custumer", back_populates="sale")
-Custumer.sale = relationship("Sale", back_populates="custumers")
+Sale.customers = relationship("customer", back_populates="sale")
+customer.sale = relationship("Sale", back_populates="customers")
 Store.sale = relationship("Sale", back_populates="stores")
 
 
-__all__ = ["Store", "Custumer", "CustumerStoreAssociation", "Cashback", "Sale"]
+__all__ = ["Store", "customer", "customerStoreAssociation", "Cashback", "Sale"]
 

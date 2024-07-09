@@ -1,14 +1,14 @@
 from pydantic import BaseModel, EmailStr, Field
 from uuid import UUID
 
-class CustumerBase(BaseModel):
+class customerBase(BaseModel):
     id : UUID
     cpf: str = Field(min_length=11 , max_length=11)
     name: str = Field(min_length=1 , max_length=50)
     email: EmailStr  
     telefone : str = Field(min_length=1 , max_length=15)
 
-class CustumerCreate(BaseModel):
+class customerCreate(BaseModel):
     cpf: str = Field(min_length=11 , max_length=11)
     name: str = Field(min_length=1 , max_length=50)
     email: EmailStr  

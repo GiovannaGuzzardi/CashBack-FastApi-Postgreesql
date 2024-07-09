@@ -12,9 +12,7 @@ class Cashback(Base):
     id = Column(UUID(as_uuid=True), primary_key=True, default=lambda: str(uuid.uuid4()))
     redeem = Column(Boolean , default=False)
     value = Column(Float)
-    id_sale = Column(UUID(as_uuid=True), ForeignKey('sales.id'))
+    id_sale = Column(UUID(as_uuid=True), ForeignKey('sales.id', name='fk_cashback_sales'))
     percent = Column(Float , default=lambda: 10.0)
 
     sale = relationship("Sale", back_populates="cashbacks")
-
-

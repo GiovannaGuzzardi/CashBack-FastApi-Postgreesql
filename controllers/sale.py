@@ -4,8 +4,8 @@ from fastapi import Depends, HTTPException
 from sqlalchemy.orm import Session
 from db.database import get_db
 from models.cashback import Cashback
-from models.custumer import Custumer
-from models.custumer_store_association import CustumerStoreAssociation
+from models.customer import customer
+from models.customer_store_association import customerStoreAssociation
 from models.sale import Sale
 from models.store import Store
 from schemes.json import http_json
@@ -23,26 +23,26 @@ async def create_sale(sale: SaleCreate, db: Session = Depends(get_db)):
     try:
         # conferir se cliente e loja existem
         store = db.query(Store).filter(Store.id == sale.id_store).first()
-        custumer = db.query(Custumer).filter(Custumer.id == sale.id_custumer).first()
-        if not store or not custumer:
+        customer = db.query(customer).filter(customer.id == sale.id_customer).first()
+        if not store or not customer:
             raise HTTPException(status_code=404, detail="Loja ou Cliente não encontrados!")
         # conferir se associação existe
-        association = db.query(CustumerStoreAssociation).filter(
-            CustumerStoreAssociation.id_store == sale.id_store,
-            CustumerStoreAssociation.id_custumer == sale.id_custumer
+        association = db.query(customerStoreAssociation).filter(
+            customerStoreAssociation.id_store == sale.id_store,
+            customerStoreAssociation.id_customer == sale.id_customer
         ).first()
         if not association:
             # criar a associação
-            new_association = CustumerStoreAssociation(
+            new_association = customerStoreAssociation(
                 id_store=sale.id_store,
-                id_custumer=sale.id_custumer,
+                id_customer=sale.id_customer,
             )
             db.add(new_association)
             db.commit()
             db.refresh(new_association)
         # Adicionar a venda
         new_sale = Sale(
-            id_custumer=sale.id_custumer,
+            id_customer=sale.id_customer,
             id_store=sale.id_store,
             value=sale.value,
         )

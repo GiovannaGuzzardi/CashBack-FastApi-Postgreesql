@@ -5,9 +5,9 @@ from db.database import engine
 import models
 import models.store
 from fastapi.exceptions import RequestValidationError
-import controllers.custumer as api_custumer
+import controllers.customer as api_customer
 import controllers.cashback as api_cashback
-import controllers.custumer_store as api_custumer_store
+import controllers.customer_store as api_customer_store
 import controllers.sale as api_sale
 
 app = FastAPI(
@@ -41,7 +41,7 @@ def read_root():
 
 
 app.include_router(api_store.router)
-app.include_router(api_custumer.router)
+app.include_router(api_customer.router)
 app.include_router(api_cashback.router)
-app.include_router(api_custumer_store.router)
+app.include_router(api_customer_store.router)
 app.include_router(api_sale.router)
