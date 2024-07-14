@@ -5,7 +5,7 @@ from fastapi import Depends, HTTPException
 import fastapi
 from sqlalchemy.orm import Session
 from db.database import get_db
-from schemes.customer import customerBase, customerCreate
+from schemes.customer import CustomerBase, CustomerCreate
 from schemes.json import http_json
 from sqlalchemy.exc import IntegrityError
 
@@ -15,7 +15,7 @@ router = fastapi.APIRouter()
 db_dependency = Annotated[Session,fastapi.Depends(get_db)]
 
 @router.post("/customers/", tags=["customers"])
-async def create_customer(customer: customerCreate, db: Session = Depends(get_db)):
+async def create_customer(customer: CustomerCreate, db: Session = Depends(get_db)):
     try:
         db_customer = post_customer(customer, db)
         
@@ -38,7 +38,7 @@ async def create_customer(customer: customerCreate, db: Session = Depends(get_db
             detail= str(e)
         )
     
-@router.get("/customers/", response_model= List[customerBase] ,tags=["customers"])
+@router.get("/customers/", response_model= List[CustomerBase] ,tags=["customers"])
 async def read_customers(db: db_dependency):
     try:
         result = list_customer(db)
@@ -48,7 +48,7 @@ async def read_customers(db: db_dependency):
         raise HTTPException(status_code=400 , detail= str(e) )
     return result
 
-@router.get("/customer/{customer_id}", response_model=customerBase ,tags=["customers"])
+@router.get("/customer/{customer_id}", response_model=CustomerBase ,tags=["customers"])
 async def read_customer_id(customer_id: uuid.UUID, db: db_dependency):
     try:
         result = get_customer_by_id(customer_id, db)
@@ -56,7 +56,7 @@ async def read_customer_id(customer_id: uuid.UUID, db: db_dependency):
         raise HTTPException(status_code=404 , detail= str(e) )
     return result
 
-@router.get("/customer/cpf/{cpf}/", response_model=customerBase ,tags=["customers"])
+@router.get("/customer/cpf/{cpf}/", response_model=CustomerBase ,tags=["customers"])
 async def read_customer_cpf(cpf: str, db: db_dependency):
     try:
         result = get_customer_by_cpf(cpf, db)
@@ -64,7 +64,7 @@ async def read_customer_cpf(cpf: str, db: db_dependency):
         raise HTTPException(status_code=404 , detail= str(e) )
     return result
 
-@router.get("/customer/phone/{phone}/", response_model=customerBase ,tags=["customers"])
+@router.get("/customer/phone/{phone}/", response_model=CustomerBase ,tags=["customers"])
 async def read_customer_phone(phone: str, db: db_dependency):
     try:
         result = get_customer_by_phone(phone, db)
@@ -72,7 +72,7 @@ async def read_customer_phone(phone: str, db: db_dependency):
         raise HTTPException(status_code=404 , detail= str(e) )
     return result
 
-@router.get("/customer/email/{email}", response_model=customerBase ,tags=["customers"])
+@router.get("/customer/email/{email}", response_model=CustomerBase ,tags=["customers"])
 async def read_customer_email(email: str, db: db_dependency):
     try:
         result = get_customer_by_email(email, db)
@@ -97,7 +97,7 @@ async def delete_customer(customer_id: uuid.UUID, db: Session = Depends(get_db))
         )
 
 @router.put("/customer/{customer_id}", response_model=http_json ,tags=["customers"])
-async def update_customer(customer_id: uuid.UUID, customer: customerCreate, db: Session = Depends(get_db)):
+async def update_customer(customer_id: uuid.UUID, customer: CustomerCreate, db: Session = Depends(get_db)):
     try:
         update_customer_service(customer_id, customer, db)
     except Exception as e:

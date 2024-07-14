@@ -12,11 +12,14 @@ from services.store import delete_store_service, get_store_by_cnpj, get_store_by
 from schemes.json import http_json
 from sqlalchemy.exc import IntegrityError
 
-router = fastapi.APIRouter()
+router = fastapi.APIRouter(
+    prefix="/store",
+    tags=["store"]
+)
 
 db_dependency = Annotated[Session,Depends(get_db)]
 
-@router.post("/store/", response_model=http_json ,tags=["stores"])
+@router.post("/", response_model=http_json)
 async def create_store(store: StoreCreate, db: Session = Depends(get_db)):
     try:
         db_store = post_store(store, db)
@@ -40,7 +43,7 @@ async def create_store(store: StoreCreate, db: Session = Depends(get_db)):
             detail= str(e)
         )
 
-@router.get("/stores/", response_model= List[StoreBase] ,tags=["stores"])
+@router.get("/", response_model= List[StoreBase])
 async def read_stores(db: db_dependency):
     try:
         result = list_store(db)
@@ -50,15 +53,15 @@ async def read_stores(db: db_dependency):
         raise HTTPException(status_code=400 , detail= str(e) )
     return result
 
-@router.get("/store/{store_id}", response_model=StoreBase ,tags=["stores"])
-async def read_store(store_id: uuid.UUID, db: db_dependency):
+@router.get("/{store_id}", response_model=StoreBase)
+async def read_store(store_id: uuid.UUID, db: db_dependency, ):
     try:
         result = get_store_by_id(store_id, db)
     except Exception as e:
         raise HTTPException(status_code=404 , detail= str(e) )
     return result
 
-@router.get("/store/cnpj/{cnpj}/", response_model=StoreBase ,tags=["stores"])
+@router.get("/cnpj/{cnpj}/", response_model=StoreBase )
 async def read_question(cnpj: str, db: db_dependency):
     try:
         result = get_store_by_cnpj(cnpj, db)
@@ -66,7 +69,7 @@ async def read_question(cnpj: str, db: db_dependency):
         raise HTTPException(status_code=404 , detail= str(e) )
     return result
 
-@router.get("/store/email/{email}", response_model=StoreBase ,tags=["stores"])
+@router.get("/email/{email}", response_model=StoreBase)
 async def read_question(email: str, db: db_dependency):
     try:
         result = get_store_by_email(email, db)
@@ -74,7 +77,7 @@ async def read_question(email: str, db: db_dependency):
         raise HTTPException(status_code=404 , detail= str(e) )
     return result
 
-@router.delete("/store/{store_id}", response_model=http_json ,tags=["stores"])
+@router.delete("/{store_id}", response_model=http_json)
 async def delete_store(store_id: uuid.UUID, db: Session = Depends(get_db)):
     try:
         delete_store_service(store_id, db)
@@ -90,7 +93,7 @@ async def delete_store(store_id: uuid.UUID, db: Session = Depends(get_db)):
             status_code=200,
         )
 
-@router.put("/store/{store_id}", response_model=http_json ,tags=["stores"])
+@router.put("/{store_id}", response_model=http_json)
 async def update_store(store_id: uuid.UUID, store: StoreCreate, db: Session = Depends(get_db)):
     try:
         update_store_service(store_id, store, db)
@@ -104,3 +107,5 @@ async def update_store(store_id: uuid.UUID, store: StoreCreate, db: Session = De
             detail="Loja atualizada com sucesso",
             status_code=200,
         )
+
+# Crud completo , service e controller separados

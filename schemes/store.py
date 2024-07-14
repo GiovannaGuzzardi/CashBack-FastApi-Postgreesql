@@ -6,11 +6,14 @@ class StoreBase(BaseModel):
     cnpj: str = Field(min_length=14 , max_length=14)
     name: str
     email: EmailStr   
+    active: bool = Field(default=True)
+    password: str
 
 class StoreCreate(BaseModel):
     cnpj: str = Field(min_length=14, max_length=14)
     name: str = Field(min_length=1, max_length=50)
     email: EmailStr
+    password: str = Field(min_length=6, max_length=50)
 
 
 # Tabela loja (Loja):

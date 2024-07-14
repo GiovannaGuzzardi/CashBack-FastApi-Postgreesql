@@ -13,5 +13,5 @@ class Store(Base):
     active = Column(Boolean, default=True)
     password = Column(String)                     
 
-    customer_stores = relationship("customerStoreAssociation", back_populates="store")
+    customer_stores = relationship("CustomerStoreAssociation", back_populates="store")
     sale = relationship('Sale', back_populates='stores')

@@ -5,12 +5,12 @@ import pytz
 
 timezone_brasilia = pytz.timezone('America/Sao_Paulo')
 
-class customerStoreBase(BaseModel):
+class CustomerStoreBase(BaseModel):
     id_store : UUID
     id_customer : UUID
     account_creation: datetime = Field(default_factory=lambda: datetime.now(timezone_brasilia))
 
-class customerStoreCreate(BaseModel):
+class CustomerStoreCreate(BaseModel):
     id_store : UUID
     id_customer : UUID
 

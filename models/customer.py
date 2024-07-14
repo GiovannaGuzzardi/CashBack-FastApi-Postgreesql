@@ -3,7 +3,7 @@ from sqlalchemy import UUID, Boolean,Column, ForeignKey, Integer, String
 from db.database import Base
 from sqlalchemy.orm import relationship
 
-class customer(Base):
+class Customer(Base):
     __tablename__ = 'customers'
 
     id = Column(UUID(as_uuid=True), primary_key=True, index=True, default=lambda: str(uuid.uuid4()))
@@ -12,5 +12,5 @@ class customer(Base):
     email = Column(String, nullable=True)
     telefone = Column(String, unique =True)
 
-    customer_stores = relationship("customerStoreAssociation", back_populates="customer")
+    customer_stores = relationship("CustomerStoreAssociation", back_populates="customer")
     sale = relationship('Sale', back_populates='customers')

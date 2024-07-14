@@ -16,7 +16,7 @@ class Sale(Base):
     date_time = Column(DateTime, default=datetime.now) # Data e hora da compra
 
     stores = relationship('Store', back_populates='sale')
-    customers = relationship('customer', back_populates='sale')
+    customers = relationship('Customer', back_populates='sale')
 
 
     cashbacks = relationship('Cashback', back_populates='sale')

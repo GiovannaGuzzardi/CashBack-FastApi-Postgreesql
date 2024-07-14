@@ -5,7 +5,7 @@ from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 from db.database import Base
 
-class customerStoreAssociation(Base):
+class CustomerStoreAssociation(Base):
     __tablename__ = 'customer_store_association'
     
     id_store = Column(UUID(as_uuid=True), ForeignKey('stores.id' , name='fk_association_store'), primary_key=True)
@@ -14,7 +14,7 @@ class customerStoreAssociation(Base):
     
 # Relationships
     store = relationship("Store", back_populates="customer_stores")
-    customer = relationship("customer", back_populates="customer_stores")
+    customer = relationship("Customer", back_populates="customer_stores")
 
 # relação entre cashback e customer e store
     
