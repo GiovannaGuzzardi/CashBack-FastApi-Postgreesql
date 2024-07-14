@@ -1,7 +1,10 @@
-from fastapi import FastAPI, Request
+from datetime import datetime
+from typing import Annotated
+from fastapi import Depends, FastAPI, HTTPException, Request, status
 from fastapi.responses import JSONResponse
+from sqlalchemy.orm import Session
 import controllers.store as api_store
-from db.database import engine
+from db.database import engine, get_db
 import models
 import models.store
 from fastapi.exceptions import RequestValidationError
@@ -9,6 +12,7 @@ import controllers.customer as api_customer
 import controllers.cashback as api_cashback
 import controllers.customer_store as api_customer_store
 import controllers.sale as api_sale
+import controllers.auth as api_auth
 
 app = FastAPI(
     title="Cyrus Cash",
@@ -35,9 +39,17 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 
 models.store.Base.metadata.create_all(bind=engine)
 
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
+db_dependency = Annotated[Session, Depends(get_db)]
+user_dependency = Annotated[dict, Depends(api_auth.get_current_user)]
+
+@app.get("/" , status_code=status.HTTP_200_OK)
+async def user(user: user_dependency , db : db_dependency):
+    if not user:
+        raise HTTPException(status_code=401 , detail="Usuário não autenticado")        
+    return {"store" : user}
+
+
+
 
 
 app.include_router(api_store.router)
@@ -45,3 +57,4 @@ app.include_router(api_customer.router)
 app.include_router(api_cashback.router)
 app.include_router(api_customer_store.router)
 app.include_router(api_sale.router)
+app.include_router(api_auth.router)
