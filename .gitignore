@@ -1,0 +1,22 @@
+# Ignore o ambiente virtual
+.venv/
+venv/
+env/
+
+# Ignore arquivos de configuração específicos do sistema operacional
+.DS_Store
+Thumbs.db
+
+# Ignore arquivos de logs
+*.log
+
+# Ignore arquivos de cache do Python
+__pycache__/
+*.py[cod]
+
+/var
+
+# Ignore arquivos de configuração do IDE
+.env
+
+alembic/versions/ # Ignore alembic migration files
