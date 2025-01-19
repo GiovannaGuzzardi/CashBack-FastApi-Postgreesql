@@ -74,7 +74,7 @@ async def get_current_user(token: Annotated[str , Depends(oauth2_bearer)]):
                 detail="Este não é um usuario válido"
             )
         return {"email": username, "id": user_id}
-    
+         
     except JWTError as e :
         raise HTTPException (
             status_code=status.HTTP_401_UNAUTHORIZED,

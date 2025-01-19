@@ -13,6 +13,7 @@ import controllers.cashback as api_cashback
 import controllers.customer_store as api_customer_store
 import controllers.sale as api_sale
 import controllers.auth as api_auth
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(
     title="Cyrus Cash",
@@ -25,6 +26,15 @@ app = FastAPI(
     license_info={
         "name":"MIT"
     }
+)
+
+# Adiciona o middleware de CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Permite todas as origens (para ambiente de desenvolvimento)
+    allow_credentials=True,
+    allow_methods=["*"],  # Permite todos os métodos (GET, POST, etc.)
+    allow_headers=["*"],  # Permite todos os cabeçalhos
 )
 
 @app.exception_handler(RequestValidationError)
@@ -48,13 +58,9 @@ async def user(user: user_dependency , db : db_dependency):
         raise HTTPException(status_code=401 , detail="Usuário não autenticado")        
     return {"store" : user}
 
-
-
-
-
 app.include_router(api_store.router)
 app.include_router(api_customer.router)
 app.include_router(api_cashback.router)
 app.include_router(api_customer_store.router)
 app.include_router(api_sale.router)
-app.include_router(api_auth.router)
+app.include_router(api_auth.router) 
